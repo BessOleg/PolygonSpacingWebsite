@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="UTF-8">
+    <title>News</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/fabric@4.6.0/dist/fabric.js"></script>
+    <script src="/public/js/three.js" ></script>
+    <link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+	<%-include ("blocks/header.ejs") %>
+    <p style="color: #dddddd; margin-left:30px;">
+            X:<span id="offsetX"></span>
+            Y:<span id="offsetY"></span>
+    </p>
+
+<div class="main_cont">
+
+    <canvas id='canvas' height='500' width='500' style="border:1px solid red;"></canvas>
+    <dialog id='dialog'>
+            <p id='p_dialog'></p>
+            <button id="closeWindow">Закрыть</button>
+    </dialog>
+
+    <div id="button_container">
+
+        <button id = "clearCanvas">Clear canvas</button>
+        <button id = "back">Back one point</button>
+		<button id = "math">Обчислить площадь</button>
+        <form action="" method="post" target="_blank">
+        <p>
+            <input type="hidden" id="rect_coord" name="coordinates" required><br>
+        </p>
+
+        </form>
+
+
+    </div>
+
+    <dialog id='dialogRedCoord'>
+        <div id="add" style="display:grid;">
+            <button id="addInput">&#43;</button>
+        </div>
+        <button id="closeWindowReadCoord">Закрыть</button>
+        <button id="addDataFromInput">Пременить</button>
+    </dialog>
+
+</div>
+
+<script src="/public/js/draw.js">
+
+   
+</script>
+
+</body>
+</html>

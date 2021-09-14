@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <title>Log In</title>
+    <script src="/public/js/LogIn.js"></script>
+</head>
+<body>
+    <%-include ("blocks/header.ejs") %>
+	<div id="form">
+    <h1> test website  </h1>
+
+    <form action="" class="postcard">
+        <div class="form-row">
+            <label for="login">Login</label>
+            <div><input type="text" id="login" required></div>
+        </div>
+        <div class="form-row">
+            <label for="password">password</label>
+            <div>
+                <input type="password" id="password" required>
+            </div>
+        </div>
+
+        <div class="form-row" id="log">
+            <input type="button" value="Log In" id="btnlog">
+			<input type="button" value="Log Out" id="btnlogout">
+        </div>
+		<div class="form-info" >
+		<div class = "btns">
+            <input type="button" data-page="admin" value="Admin info" value="" id="btnAdmin"/>
+			<input type="button" data-page="user" value="Profile" id="btnUser" />
+			<input type="button" data-page="newusers" value="registration" id="btnreg" />
+			</div>
+        </div>
+		</div>
+    </form>
+</body>
+</html>
