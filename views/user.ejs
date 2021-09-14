@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+	<link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+    <title>Info</title>
+</head>
+<body >
+	<%-include ("blocks/header.ejs") %>
+	<form method="post" action="/user" enctype="multipart/form-data">
+	<div class = "user">
+	<h1>OWL</h1>
+	<img src="../public/assets/user.png" alt="рисуночек" id=imgform>
+	<input name="filedata" type="file">
+	
+	<button type="submit" >Submit</button>
+	</div>
+	</form>
+</body>
+</html>
