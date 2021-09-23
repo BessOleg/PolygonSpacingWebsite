@@ -51,10 +51,20 @@ fabric.util.addListener(window, "dblclick", function () {
   roof = makeRoof(roofPoints);
   canvas.add(roof);
   canvas.renderAll();
-
-  poligon[NumPolig].x.pop();
-  poligon[NumPolig].y.pop();
+  var vhodflag = false;
+  poligon[NumPolig].x.pop(); //poligon[NumPolig].xspare = poligon[NumPolig].x;
+  poligon[NumPolig].y.pop(); //poligon[NumPolig].yspare = poligon[NumPolig].y;
   poligon[NumPolig].LeNgth = poligon[NumPolig].x.length;
+  if (NumPolig != 0)
+    for (let i = 0; i < poligon[NumPolig].x.length; i++) {
+      if (inPolyc(poligon[NumPolig].x[i], poligon[NumPolig].y[i]) == true)
+        vhodflag = true;
+    }
+
+  if (vhodflag != false) poligon[NumPolig].vhod = true;
+  if (NumPolig != 0) {
+    Peres(poligon[NumPolig], NumPolig);
+  }
   NumPolig++;
 
   //clear arrays
@@ -63,13 +73,15 @@ fabric.util.addListener(window, "dblclick", function () {
   lineCounter = 0;
   objectmove = null;
 });
+
 var mausx, mausy;
 canvas.on("mouse:down", function (options) {
   if (objectmove != null) {
     mausy = 0;
     mausx = 0;
     objectmove = null;
-  } else if (options.target) {
+  } else if (options.target && options.target.stroke == "green") {
+    console.log(options.target);
     mausx = event.offsetX;
     mausy = event.offsetY;
     objectmove = options.target;
@@ -91,7 +103,16 @@ canvas.on("mouse:down", function (options) {
     );
     //console.log(x ,"_", y);
     if (p1) {
-      poligon.push({ x: [], y: [], NumPol: NumPolig, LeNgth: 0 });
+      poligon.push({
+        x: [],
+        y: [],
+        xspare: [],
+        yspare: [],
+        NumPol: NumPolig,
+        LeNgth: 0,
+        vhod: false,
+        masperes: [],
+      });
       p1 = false;
     }
 
@@ -122,28 +143,33 @@ canvas.on("mouse:move", function (options) {
 
     canvas.renderAll();
   }
+  if (objectmove)
+    if (objectmove.stroke == "green") {
+      canvas.on("mouse:up", async function (options) {
+        console.log("yes");
+        if (
+          objectmove &&
+          !isNaN(objectmove.NumPol) &&
+          poligon.length > objectmove.NumPol
+        ) {
+          var number = objectmove.NumPol; //number
+          var mx = parseInt(event.offsetX);
+          var my = parseInt(event.offsetY);
+          var dx = mx - mausx;
+          var dy = my - mausy;
 
-  canvas.on("mouse:up", function (options) {
-    if (
-      objectmove &&
-      !isNaN(objectmove.NumPol) &&
-      poligon.length > objectmove.NumPol
-    ) {
-      var nambur = objectmove.NumPol; //number
-      var mx = parseInt(event.offsetX);
-      var my = parseInt(event.offsetY);
-      var dx = mx - mausx;
-      var dy = my - mausy;
-
-      for (var i = 0; i < poligon[nambur].LeNgth; ++i) {
-        poligon[nambur].x[i] += Math.round(dx);
-        poligon[nambur].y[i] += Math.round(dy);
-      }
-
-      mausx = mx;
-      mausy = my;
+          for (var i = 0; i < poligon[number].x.length; ++i) {
+            poligon[number].x[i] += Math.round(dx);
+            poligon[number].y[i] += Math.round(dy);
+          }
+          if (number != 0) {
+            Peres(poligon[number], number);
+          }
+          mausx = mx;
+          mausy = my;
+        }
+      });
     }
-  });
 
   document.getElementById("offsetX").innerHTML = event.offsetX;
   document.getElementById("offsetY").innerHTML = event.offsetY;
@@ -164,6 +190,8 @@ function makeRoof(roofPoints) {
     stroke: "green",
     NumPol: NumPolig,
   });
+  if (NumPolig == 0) roof.stroke = "blue";
+
   roof.set({
     left: left,
     top: top,
