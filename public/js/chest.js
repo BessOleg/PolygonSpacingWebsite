@@ -1,7 +1,15 @@
 $("#chest").click(function () {
+
+  for (let l = 0; l < canvas._objects.length; l++) {
+    if (canvas._objects[l].radius) {
+      canvas.remove(canvas._objects[l]);
+      l = 0;
+    }
+  }
   //console.log(alfa * 180 / Math.PI);
-  linepers();
+  //linepers();
   //PloshPoligon();
+ 
 });
 var lineskal = { x: [], y: [] };
 var poligplosh = { x: [], y: [] };
@@ -19,12 +27,12 @@ var lineSegmentsIntersect = (x1, y1, x2, y2, x3, y3, x4, y4) => {
     : false;
 };
 
-linepers = () => {
+async function linepers() {
   if (lineskal.x.length > 0) {
     lineskal.x = [];
     lineskal.y = [];
     for (let l = 0; l < canvas._objects.length; l++) {
-      if (canvas._objects[l].radius != null) {
+      if (canvas._objects[l].radius) {
         canvas.remove(canvas._objects[l]);
         l = 0;
       }
@@ -128,7 +136,7 @@ linepers = () => {
     poligplosh.y = [];
   }
 };
-
+// функцыя проверки пренадлежания точки обекту
 function inPolyc(x, y) {
   var xp = poligon[0].x;
   var yp = poligon[0].y;
@@ -167,6 +175,7 @@ var getAngle = function (v1, v2) {
 
   return Math.atan2(cross, dot);
 };
+// функцыя нахождения угла векторов
 var vectorscalyr = (x1, y1, x2, y2, x3, y3) => {
   var v1 = getVector({ x: x2, y: y2 }, { x: x1, y: y1 });
   var v2 = getVector({ x: x2, y: y2 }, { x: x3, y: y3 });
